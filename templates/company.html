@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ company }} - Job Openings</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #7e22ce 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .back-btn {
+            display: inline-block;
+            color: #1e3c72;
+            text-decoration: none;
+            font-size: 14px;
+            margin-bottom: 15px;
+            transition: color 0.3s;
+        }
+        
+        .back-btn:hover {
+            color: #7e22ce;
+        }
+        
+        h1 {
+            color: #1e3c72;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        
+        .company-subtitle {
+            color: #666;
+            font-size: 16px;
+        }
+        
+        .job-test-section {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .job-header {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #7e22ce;
+        }
+        
+        .section-title {
+            color: #1e3c72;
+            font-size: 24px;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #7e22ce;
+        }
+        
+        .job-details {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+        
+        .job-meta {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+        
+        .job-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .job-description {
+            color: #555;
+            line-height: 1.8;
+            font-size: 15px;
+        }
+        
+        .test-section {
+            background: #fff9f5;
+            padding: 25px;
+            border-radius: 10px;
+            border: 2px solid #7e22ce;
+        }
+        
+        .upload-form {
+            margin-top: 20px;
+        }
+        
+        .file-upload-wrapper {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+        
+        .file-upload-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px dashed #7e22ce;
+            border-radius: 8px;
+            background: #f8f9fa;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .file-upload-input:hover {
+            background: #e9ecef;
+            border-color: #1e3c72;
+        }
+        
+        .upload-btn {
+            width: 100%;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #7e22ce 0%, #1e3c72 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .upload-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(126, 34, 206, 0.4);
+        }
+        
+        .upload-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .alert {
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .upload-info {
+            font-size: 13px;
+            color: #666;
+            margin-top: 10px;
+            font-style: italic;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 20px 10px;
+            }
+            
+            .header, .jobs-section, .upload-section {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .job-meta {
+                flex-direction: column;
+                gap: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="/" class="back-btn">← Back to ATS Models</a>
+            <h1>{{ company }} ATS Validation</h1>
+            <p class="company-subtitle">FairHire Admin - Validate {{ company }}'s ATS Model Performance</p>
+        </div>
+        
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div style="max-width: 1000px; margin: 0 auto 20px;">
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+        
+        {% for job in jobs %}
+        <div class="job-test-section">
+            <div class="job-header">
+                <h2 class="section-title">📋 Job #{{ loop.index }} - {{ job.title }}</h2>
+            </div>
+            
+            <div class="job-details">
+                <div class="job-meta">
+                    <div class="job-meta-item">
+                        <span>📍</span>
+                        <span>{{ job.location }}</span>
+                    </div>
+                    <div class="job-meta-item">
+                        <span>💼</span>
+                        <span>{{ job.experience }}</span>
+                    </div>
+                    <div class="job-meta-item">
+                        <span>🕒</span>
+                        <span>{{ job.type }}</span>
+                    </div>
+                </div>
+                <div class="job-description">
+                    <strong>Job Description:</strong><br>
+                    {{ job.description }}
+                </div>
+            </div>
+            
+            <div class="test-section">
+                <h3 style="color: #1e3c72; font-size: 18px; margin-bottom: 15px;">🧪 Test Resume Against This Job</h3>
+                <p style="color: #666; margin-bottom: 15px; font-size: 14px;">Upload a test resume to validate how the {{ company }} ATS processes it for this specific job description.</p>
+                
+                <form action="/upload/{{ company }}" method="POST" enctype="multipart/form-data" class="upload-form" id="uploadForm{{ loop.index }}">
+                    <input type="hidden" name="job_id" value="{{ job.id }}">
+                    <input type="hidden" name="job_title" value="{{ job.title }}">
+                    
+                    <div class="file-upload-wrapper">
+                        <input 
+                            type="file" 
+                            name="resume" 
+                            id="resume{{ loop.index }}" 
+                            class="file-upload-input" 
+                            accept=".pdf,.doc,.docx"
+                            required
+                            onchange="updateFileName({{ loop.index }})"
+                        >
+                    </div>
+                    <p class="upload-info">
+                        Accepted formats: PDF, DOC, DOCX (Max size: 16MB)
+                    </p>
+                    <button type="submit" class="upload-btn" id="submitBtn{{ loop.index }}">
+                        🧪 Run ATS Test for {{ job.title }}
+                    </button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <script>
+        function updateFileName(index) {
+            const input = document.getElementById('resume' + index);
+            const submitBtn = document.getElementById('submitBtn' + index);
+            if (input.files.length > 0) {
+                const fileName = input.files[0].name;
+                submitBtn.textContent = '🧪 Run Test - ' + fileName;
+            }
+        }
+        
+        // Add submit handlers for all forms
+        document.querySelectorAll('form[id^="uploadForm"]').forEach(form => {
+            form.addEventListener('submit', function(e) {
+                const submitBtn = this.querySelector('button[type="submit"]');
+                submitBtn.disabled = true;
+                submitBtn.textContent = '⏳ Testing ATS Model...';
+            });
+        });
+    </script>
+</body>
+</html>
